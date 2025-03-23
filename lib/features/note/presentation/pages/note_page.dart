@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_note_taking_app/features/note/presentation/pages/add_note_page.dart';
 import 'package:flutter_note_taking_app/state_management/note_state.dart';
 import 'package:provider/provider.dart';
 import '../widgets/note_list.dart';
@@ -17,7 +18,9 @@ class NotePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print('navigate to create note page');
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (context) => const AddNotePage()));
         },
         child: const Icon(Icons.add),
       ),
