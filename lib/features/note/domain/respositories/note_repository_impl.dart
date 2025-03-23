@@ -21,7 +21,6 @@ class NoteRepositoryImpl implements NoteRepository {
           .map((noteModel) => noteModel.toEntity())
           .toList();
     }
-
     return [];
   }
 
