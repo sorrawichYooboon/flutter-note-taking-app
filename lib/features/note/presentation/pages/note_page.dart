@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_note_taking_app/features/note/presentation/pages/add_note_page.dart';
+import 'package:flutter_note_taking_app/features/note/presentation/widgets/note_card.dart';
 import 'package:flutter_note_taking_app/state_management/note_state.dart';
 import 'package:provider/provider.dart';
-import '../widgets/note_list.dart';
 
 class NotePage extends StatefulWidget {
   const NotePage({super.key});
@@ -31,10 +31,12 @@ class _NotePageState extends State<NotePage> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: _searchController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Search notes...',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                prefixIcon: const Icon(Icons.search),
               ),
               onChanged: (query) {
                 Provider.of<NoteState>(
@@ -53,22 +55,57 @@ class _NotePageState extends State<NotePage> {
               if (noteState.quotes.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Inspiration Quote:'),
-                      const SizedBox(height: 8),
-                      Text(
-                        '"${noteState.quotes[noteState.currentQuoteIndex].quote}"',
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        '- ${noteState.quotes[noteState.currentQuoteIndex].author}',
-                      ),
-                    ],
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade100,
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Inspiration Quote:',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          '"${noteState.quotes[noteState.currentQuoteIndex].quote}"',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                        const SizedBox(height: 16),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            '- ${noteState.quotes[noteState.currentQuoteIndex].author} -',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              Expanded(child: NoteList(notes: noteState.filteredNotes)),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 8.0,
+                          mainAxisSpacing: 8.0,
+                        ),
+                    itemCount: noteState.filteredNotes.length,
+                    itemBuilder: (context, index) {
+                      final note = noteState.filteredNotes[index];
+                      return NoteCard(note: note);
+                    },
+                  ),
+                ),
+              ),
             ],
           );
         },

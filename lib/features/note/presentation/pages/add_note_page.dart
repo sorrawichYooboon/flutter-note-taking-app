@@ -48,10 +48,21 @@ class _AddNotePageState extends State<AddNotePage> {
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                'Create a new note',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _titleController,
-                decoration: const InputDecoration(labelText: 'Title'),
+                decoration: InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a title';
@@ -59,9 +70,16 @@ class _AddNotePageState extends State<AddNotePage> {
                   return null;
                 },
               ),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _contentController,
-                decoration: const InputDecoration(labelText: 'Content'),
+                maxLines: 5,
+                decoration: InputDecoration(
+                  labelText: 'Content',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter content';
@@ -70,7 +88,21 @@ class _AddNotePageState extends State<AddNotePage> {
                 },
               ),
               const SizedBox(height: 20),
-              ElevatedButton(onPressed: _saveNote, child: const Text('Save')),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _saveNote,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 15,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                  ),
+                  child: const Text('Save', style: TextStyle(fontSize: 16)),
+                ),
+              ),
             ],
           ),
         ),
