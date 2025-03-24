@@ -16,7 +16,9 @@ class NoteState extends ChangeNotifier {
     required this.createNote,
     required this.updateNote,
     required this.deleteNote,
-  });
+  }) {
+    fetchNotes();
+  }
 
   Future<void> fetchNotes() async {
     _notes = await getNotes();
@@ -50,4 +52,10 @@ class NoteState extends ChangeNotifier {
     );
     await updateNoteById(updatedNote);
   }
+
+  int get totalNotes => _notes.length;
+
+  int get completedNotes => _notes.where((note) => note.isDone).length;
+
+  int get pendingNotes => _notes.where((note) => !note.isDone).length;
 }
