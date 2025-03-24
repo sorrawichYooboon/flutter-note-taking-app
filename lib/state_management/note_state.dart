@@ -37,4 +37,17 @@ class NoteState extends ChangeNotifier {
     await deleteNote(id);
     await fetchNotes();
   }
+
+  Future<void> toggleNoteStatus(String id) async {
+    final note = _notes.firstWhere((note) => note.id == id);
+    final updatedNote = Note(
+      id: note.id,
+      title: note.title,
+      content: note.content,
+      createdAt: note.createdAt,
+      updatedAt: DateTime.now(),
+      isDone: !note.isDone,
+    );
+    await updateNoteById(updatedNote);
+  }
 }

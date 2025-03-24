@@ -32,6 +32,7 @@ class _AddNotePageState extends State<AddNotePage> {
         content: _contentController.text,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
+        isDone: false,
       );
       Provider.of<NoteState>(context, listen: false).addNote(newNote);
       Navigator.of(context).pop();

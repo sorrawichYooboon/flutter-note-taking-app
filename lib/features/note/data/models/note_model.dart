@@ -6,6 +6,7 @@ class NoteModel {
   final String content;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final bool isDone;
 
   NoteModel({
     required this.id,
@@ -13,6 +14,7 @@ class NoteModel {
     required this.content,
     required this.createdAt,
     required this.updatedAt,
+    this.isDone = false,
   });
 
   factory NoteModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class NoteModel {
       content: json['content'],
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
+      isDone: json['isDone'] ?? false,
     );
   }
 
@@ -32,6 +35,7 @@ class NoteModel {
       content: note.content,
       createdAt: note.createdAt,
       updatedAt: note.updatedAt,
+      isDone: note.isDone,
     );
   }
 
@@ -42,6 +46,7 @@ class NoteModel {
       'content': content,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
+      'isDone': isDone,
     };
   }
 
@@ -52,6 +57,7 @@ class NoteModel {
       content: content,
       createdAt: createdAt,
       updatedAt: updatedAt,
+      isDone: isDone,
     );
   }
 }
