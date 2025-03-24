@@ -3,6 +3,9 @@ import 'package:flutter_note_taking_app/features/note/domain/respositories/note_
 import 'package:flutter_note_taking_app/features/note/domain/usecases/note_usecases.dart';
 import 'package:flutter_note_taking_app/features/note/presentation/pages/note_page.dart';
 import 'package:flutter_note_taking_app/features/note/presentation/pages/stat_page.dart';
+import 'package:flutter_note_taking_app/features/quote/data/services/quote_service.dart';
+import 'package:flutter_note_taking_app/features/quote/domain/respositories/quote_repository.dart';
+import 'package:flutter_note_taking_app/features/quote/domain/usecases/quote_usecases.dart';
 import 'package:flutter_note_taking_app/state_management/note_state.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,10 +16,16 @@ void main() async {
   final noteRepository = NoteRepositoryImpl(
     sharedPreferences: sharedPreferences,
   );
+  final quoteService = QuoteService();
+  final quoteRepository = QuoteRepositoryImpl(
+    sharedPreferences: sharedPreferences,
+    quoteService: quoteService,
+  );
   final getNotes = GetNotes(noteRepository);
   final createNote = CreateNote(noteRepository);
   final updateNote = UpdateNote(noteRepository);
   final deleteNote = DeleteNoteById(noteRepository);
+  final fetchQuotes = FetchQuotes(quoteRepository);
   runApp(
     ChangeNotifierProvider(
       create:
@@ -25,6 +34,7 @@ void main() async {
             createNote: createNote,
             updateNote: updateNote,
             deleteNote: deleteNote,
+            fetchQuotes: fetchQuotes,
           ),
       child: const MyApp(),
     ),

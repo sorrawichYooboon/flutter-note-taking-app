@@ -13,7 +13,29 @@ class NotePage extends StatelessWidget {
       appBar: AppBar(title: const Text('Notes')),
       body: Consumer<NoteState>(
         builder: (context, noteState, child) {
-          return NoteList(notes: noteState.notes);
+          return Column(
+            children: [
+              if (noteState.quotes.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Inspiration Quote:'),
+                      const SizedBox(height: 8),
+                      Text(
+                        '"${noteState.quotes[noteState.currentQuoteIndex].quote}"',
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        '- ${noteState.quotes[noteState.currentQuoteIndex].author}',
+                      ),
+                    ],
+                  ),
+                ),
+              Expanded(child: NoteList(notes: noteState.notes)),
+            ],
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(
