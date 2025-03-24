@@ -16,6 +16,9 @@ class NoteState extends ChangeNotifier {
   List<Note> _notes = [];
   List<Note> get notes => _notes;
 
+  List<Note> _filteredNotes = [];
+  List<Note> get filteredNotes => _filteredNotes;
+
   List<Quote> _quotes = [];
   List<Quote> get quotes => _quotes;
 
@@ -36,6 +39,7 @@ class NoteState extends ChangeNotifier {
 
   Future<void> fetchNotes() async {
     _notes = await getNotes();
+    _filteredNotes = _notes;
     notifyListeners();
   }
 
@@ -83,6 +87,22 @@ class NoteState extends ChangeNotifier {
         notifyListeners();
       }
     });
+  }
+
+  void searchNotes(String query) {
+    if (query.isEmpty) {
+      _filteredNotes = _notes;
+    } else {
+      _filteredNotes =
+          _notes.where((note) {
+            final titleLower = note.title.toLowerCase();
+            final contentLower = note.content.toLowerCase();
+            final searchLower = query.toLowerCase();
+            return titleLower.contains(searchLower) ||
+                contentLower.contains(searchLower);
+          }).toList();
+    }
+    notifyListeners();
   }
 
   int get totalNotes => _notes.length;
